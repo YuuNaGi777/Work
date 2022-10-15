@@ -1,0 +1,144 @@
+//用户输入事件——键盘、鼠标
+if(Input.GetKeyDown(KeyCode.A))
+
+if(Input.GetMouseButton(0))
+	Debug.Log("Pressed left click.");
+if(Input.GetMouseButton(1))
+	Debug.Log("Pressed right click.");
+if(Input.GetMouseButton(2))
+	Debug.Log("Pressed middle click.");
+
+if (Input.GetButtonDown("Fire1") ）
+——————
+using UnityEngine;
+using System.Collections;
+
+public class ExampleClass : MonoBehaviour {
+    public float speed = 10.0F;
+    public float rotationSpeed = 100.0F;
+    void Update() {
+        float translation = Input.GetAxis("Vertical") * speed;
+        float rotation = Input.GetAxis("Horizontal") * rotationSpeed;
+        translation *= Time.deltaTime;
+        rotation *= Time.deltaTime;
+        transform.Translate(0, 0, translation);
+        transform.Rotate(0, rotation, 0);
+    }
+}
+
+——————————————————————————————————
+//物体的移动、旋转和缩放
+using UnityEngine;
+using System.Collections;
+
+public class MoveA : MonoBehaviour {
+    public float moveSpeed =0.1f;
+    public float rotateSpeed =1;
+    public float ScaleOffset = 0.1f;
+    public int[] a;
+	// Use this for initialization
+	void Start () {
+
+	}	
+	// Update is called once per frame
+	void Update () {
+        transform.Translate(Vector3.forward * Time.deltaTime * (-moveSpeed));
+        transform.Rotate(Vector3.forward * Time.deltaTime * rotateSpeed);
+        transform.Rotate(2 * Time.deltaTime, 0, 0);
+        transform.position +=new Vector3(0, 0.05f * Time.deltaTime,0);
+        transform.localScale += new Vector3(ScaleOffset, 0, 0);  //缩放
+	}
+}
+
+————————————————————————————————
+//创建游戏对象
+GameObject objCube;
+int i=1;
+public Material myMaterial;
+.......
+if(Input.GetKeyDown(KeyCode.C))	{
+		    objCube = GameObject.CreatePrimitive(PrimitiveType.Cube);//设置该模型默认为立方体
+            objCube.transform.position = new Vector3(0,1,0);
+		    objCube.name = "cube"+(i++);//设置这个游戏对象的名称;objCube.name="Cube"+(i++); 
+            objCube.GetComponent<MeshRenderer>().material = myMaterial;//设置此模型材质
+		    objCube.transform.position = new Vector3(0f,0.5f,0f); //设置此模型在坐标
+	    }
+
+——————————————————————————
+//克隆场景中存在的对象
+
+  GameObject objFind;
+	// Use this for initialization
+	void Start () {
+        
+        objFind = GameObject.Find("character1");
+	}
+void Update () {
+
+	if (Input.GetKeyDown(KeyCode.B))
+        {
+            GameObject.Instantiate(objFind, new Vector3(1f, 1f, 0f), objFind.transform.rotation);            
+        }
+       
+}
+
+————————————————————————————————————————————————
+//克隆场景中没有的预制物对象
+public GameObject grenadeObj;
+public Transform grenadePos;
+GameObject cloneObj;
+.......
+ if (Input.GetKeyDown(KeyCode.G))
+        {
+            cloneObj = GameObject.Instantiate(grenadeObj, grenadePos.position, grenadePos.rotation) as GameObject;
+            Destroy(cloneObj,5); 
+        }
+
+
+
+————————————————————————————————————————————————
+//相机切换代码CameraControl.cs
+using UnityEngine;
+using System.Collections;
+
+public class CameraControl : MonoBehaviour {
+public Camera c1;
+public Camera c2;
+public Camera c3;
+public Camera mainC;
+	// Use this for initialization
+	void Start () {
+        c1.enabled = false;
+        c2.enabled = false;
+        c3.enabled = false;
+	}	
+	// Update is called once per frame
+	void Update () {
+        if (Input.GetKeyDown(KeyCode.Alpha1))
+        {
+            c1.enabled = true;
+            c2.enabled = false;
+            c3.enabled = false;
+        }
+        if (Input.GetKeyDown(KeyCode.Alpha2))
+        {
+            c1.enabled = false;
+            c2.enabled = true;
+            c3.enabled = false;
+        }
+        if (Input.GetKeyDown(KeyCode.Alpha3))
+        {
+            c1.enabled = false;
+            c2.enabled = false;
+            c3.enabled = true;
+        }
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            c1.enabled = false;
+            c2.enabled = false;
+            c3.enabled = false;
+            mainC.enabled = true;
+        }
+	}
+}
+
